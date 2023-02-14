@@ -26,11 +26,13 @@ public class App {
             BufferedReader bufferedReader = new BufferedReader(reader);
 
             String line = bufferedReader.readLine();
+            // while the not at the end of the file
             while(line != null){
 
                 String[] words = line.split("[ .,]+");
                 for(String word: words)
                 {
+                    // if there is a word add it to the arrayList
                     if(word.trim().length() > 0)
                     {
                         wordList.add(word.toLowerCase());
@@ -57,10 +59,12 @@ public class App {
         for(String word: words) 
         {
             Integer count = wordCounter.get(word);
+            // If the word was not found yet, initialize counter to 1
             if(count == null)
             {
                 wordCounter.put(word, 1);
             }
+            // If word already exists, increment counter by 1
             else
             {
                 wordCounter.put(word, count + 1);
@@ -82,8 +86,8 @@ public class App {
                         + "table, td, th { border-collapse: collapse }"
                         + "</style>";
             builder.append(css).append("\n");
-            builder.append("<h1>Word Count</h1>");
-            
+            builder.append("<h1>Word Count</h1>"); // builder creates Title for HTML page
+            // builder creates and populates table with data from input file
             builder.append("<table>");
             for(String key: wordCounter.keySet()){
                 builder.append("<tr>");
