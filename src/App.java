@@ -20,6 +20,7 @@ public class App {
         File file = new File(fileName);
         ArrayList<String> wordList = new ArrayList<>();
 
+        // Try catch block to read lines from input file and store each word in the array
         try {
             FileReader reader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(reader);
@@ -51,6 +52,8 @@ public class App {
     //Step 5: Count word occurences
     private static HashMap<String, Integer> buildHashMap(ArrayList<String> words){
         HashMap<String, Integer> wordCounter = new HashMap<>();
+        // For loop to count words, if a word exists counter is incremented, if word does not exist 
+        // counter is initiated at 1
         for(String word: words) 
         {
             Integer count = wordCounter.get(word);
@@ -70,10 +73,11 @@ public class App {
     private static void createHTMLFile(HashMap<String, Integer> wordCounter){
         File file = new File("res/words.html");
 
+        // Try catch to create and style a table with the words from input file
         try {
             FileWriter FileWriter = new FileWriter(file);
             StringBuilder builder = new StringBuilder();
-            final String css = "<style>"
+            final String css = "<style>" // Add styling to table
                         + "td, th { border: solid }"
                         + "table, td, th { border-collapse: collapse }"
                         + "</style>";
