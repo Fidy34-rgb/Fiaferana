@@ -118,6 +118,7 @@ public class App {
         }
     }
 
+    // Step 10: create HTML file for arraylist that holds words ordered by frequency in ascending order
     private static void createOrderedHTMLFile(ArrayList<WordFrequency> wordFrequencyList){
         File file = new File("res/sorted.html");
 
