@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class App {
@@ -13,6 +14,15 @@ public class App {
         ArrayList<String> words = readWords("res/words.txt"); //Step 4
         HashMap<String, Integer> wordCounter = buildHashMap(words); //Step 5
         createHTMLFile(wordCounter); //Step 6
+        //Step 9: create ArrayList of WordFrequency and populate it with data from step 5
+        ArrayList<WordFrequency> wordFrequencyList = new ArrayList<>();
+        for(String key: wordCounter.keySet())
+        {
+            WordFrequency wordOrder = new WordFrequency(wordCounter.get(key), key);
+            wordFrequencyList.add(wordOrder);
+        }
+        Collections.sort(wordFrequencyList);
+        createOrderedHTMLFile(wordFrequencyList);
     }
 
     //Step 4 - Read Input file
@@ -105,6 +115,36 @@ public class App {
 
         for (String keyWord: wordCounter.keySet()){
             System.out.println(keyWord + ": " + wordCounter.get(keyWord));
+        }
+    }
+
+    private static void createOrderedHTMLFile(ArrayList<WordFrequency> wordFrequencyList){
+        File file = new File("res/sorted.html");
+
+        // Try catch to create and style a table with the words from input file
+        try {
+            FileWriter FileWriter = new FileWriter(file);
+            StringBuilder builder = new StringBuilder();
+            final String css = "<style>" // Add styling to table
+                        + "td, th { border: solid }"
+                        + "table, td, th { border-collapse: collapse }"
+                        + "</style>";
+            builder.append(css).append("\n");
+            builder.append("<h1>Word Count</h1>"); // builder creates Title for HTML page
+            // builder creates and populates table with data from input file
+            builder.append("<table>");
+            for(WordFrequency words: wordFrequencyList){
+                builder.append("<tr>");
+                builder.append("<td>" + words.getWord() + "</td>");
+                builder.append("<td>" + words.getCount() + "</td>");
+                builder.append("</tr>");
+            }
+            builder.append("</table>");
+            FileWriter.append(builder.toString());
+            FileWriter.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 }
