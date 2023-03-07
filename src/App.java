@@ -23,6 +23,18 @@ public class App {
         }
         Collections.sort(wordFrequencyList);
         createOrderedHTMLFile(wordFrequencyList);
+        ArrayList<String> ParaWords = readWords("res/paragraph.txt"); //Step 14 paragraph.txt file read in
+        HashMap<String, Integer> ParaWordCounter = buildHashMap(ParaWords); //Step 15 
+        createParagraphHTMLFile(ParaWordCounter); //Step 16
+        //Step 18: create Arraylist of ParagraphFrequency and populate it with data from step 15
+        ArrayList<ParagraphFrequency> ParagraphFrequencyList = new ArrayList<>();
+        for(String key: ParaWordCounter.keySet())
+        {
+            ParagraphFrequency ParaWordOrder = new ParagraphFrequency(ParaWordCounter.get(key), key);
+            ParagraphFrequencyList.add(ParaWordOrder);
+        }
+        Collections.sort(ParagraphFrequencyList);
+        createSortedParaHTMLFile(ParagraphFrequencyList); //Step 20
     }
 
     //Step 4 - Read Input file
@@ -138,6 +150,70 @@ public class App {
                 builder.append("<tr>");
                 builder.append("<td>" + words.getWord() + "</td>");
                 builder.append("<td>" + words.getCount() + "</td>");
+                builder.append("</tr>");
+            }
+            builder.append("</table>");
+            FileWriter.append(builder.toString());
+            FileWriter.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    private static void createParagraphHTMLFile(HashMap<String, Integer> ParaWordCounter){
+        File file = new File("res/paragraph.html");
+
+        // Try catch to create and style a table with the words from input file
+        try {
+            FileWriter FileWriter = new FileWriter(file);
+            StringBuilder builder = new StringBuilder();
+            final String css = "<style>" // Add styling to table
+                        + "td, th { border: solid }"
+                        + "table, td, th { border-collapse: collapse }"
+                        + "</style>";
+            builder.append(css).append("\n");
+            builder.append("<h1>Word Count</h1>"); // builder creates Title for HTML page
+            // builder creates and populates table with data from input file
+            builder.append("<table>");
+            for(String key: ParaWordCounter.keySet()){
+                builder.append("<tr>");
+                builder.append("<td>" + key + "</td>");
+                builder.append("<td>" + ParaWordCounter.get(key) + "</td>");
+                builder.append("</tr>");
+            }
+            builder.append("</table>");
+            FileWriter.append(builder.toString());
+            FileWriter.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        for (String keyWord: ParaWordCounter.keySet()){
+            System.out.println(keyWord + ": " + ParaWordCounter.get(keyWord));
+        }
+    }
+
+    private static void createSortedParaHTMLFile(ArrayList<ParagraphFrequency> ParagraphFrequencyList){
+        File file = new File("res/sortedParagraphWords.html");
+
+        // Try catch to create and style a table with the words from input file
+        try {
+            FileWriter FileWriter = new FileWriter(file);
+            StringBuilder builder = new StringBuilder();
+            final String css = "<style>" // Add styling to table
+                        + "td, th { border: solid }"
+                        + "table, td, th { border-collapse: collapse }"
+                        + "</style>";
+            builder.append(css).append("\n");
+            builder.append("<h1>Word Count</h1>"); // builder creates Title for HTML page
+            // builder creates and populates table with data from input file
+            builder.append("<table>");
+            for(ParagraphFrequency paraWords: ParagraphFrequencyList){
+                builder.append("<tr>");
+                builder.append("<td>" + paraWords.getWord() + "</td>");
+                builder.append("<td>" + paraWords.getCount() + "</td>");
                 builder.append("</tr>");
             }
             builder.append("</table>");
